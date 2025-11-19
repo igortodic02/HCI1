@@ -1,0 +1,21 @@
+Dodatni zahtjevi implementirani u projektu "Informacioni sistem za rad kina":
+
+1) Podrška za različite tipove korisničkih naloga
+   - Implementirano: Administrator i korisnik.
+   - Opis: Administrator ima mogućnost rada sa filmovima pomoću CRUD funkcija.
+	   Regularni korisnik može pregledavati filmove, kupovati karte i pregledati svoje transakcije.
+	   Korisničko ime i lozinka za admin nalog je "admin".
+
+2) Internacionalizacija
+   - Implementirano: Srpski(default) i engleski.
+   - Opis: Izvršena internacionalizacija na nivou formi. Izbor jezika je omogućen na početnoj stranici aplikacije.
+
+3) Korisnička podešavanja
+   - Implementirano: Tri teme: Dark(default), Bright i Colorful.
+   - Opis: Korisnik ima mogućnost odabira teme nakon prijave na sistem. Izbor se pamti u bazi podataka i učitava se prilikom naredne prijave.
+
+4) Korisničko uputstvo
+   - Implementirano: Upustvo za pokretanje i korišćenje aplikacije
+   - Opis: Upustvo u PDF formatu izgenerisano iz README.md fajla javnog repozitorijuma projekta koji je dostupan na GitHub platformi
+
+Link do github repozitorijuma: https://github.com/igortodic02/HCI1.git
