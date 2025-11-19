@@ -1,0 +1,52 @@
+﻿<Window x:Class="Projekat1.BuyTicket"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Kupi kartu"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Width="800"
+        Height="700"
+        Padding="10"
+        Background="Black">
+    <Grid>
+        <Image x:Name="darkPic" Visibility="Collapsed" Margin="0,0,0,-60" Source="assets/bgDark.png" Stretch="Fill" StretchDirection="Both" />
+        <Image x:Name="brightPic" Visibility="Collapsed" Source="assets/bgWhite.png" Stretch="Fill" StretchDirection="Both" />
+        <Image x:Name="colorPic" Visibility="Collapsed" Source="assets/bgColor.png" Stretch="Fill" StretchDirection="Both" />
+        <Grid x:Name="Grid1">
+			<Label x:Name="chooseShowtimeLbl" HorizontalContentAlignment="Center" FontSize="30"  FontWeight="Bold" HorizontalAlignment="Center" Height="51" VerticalAlignment="Top" Width="auto" Foreground="White" Margin="0,20,0,0" >Izaberite termin</Label>
+			<Border BorderBrush="#7331c4" BorderThickness="3" Margin="0,100,0,0" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8" Padding="15">
+				<Grid>
+                    <Label x:Name="chooseTimeAndHall" HorizontalContentAlignment="Center" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center" Height="51" VerticalAlignment="Top" Width="auto" Foreground="White" Margin="0,30,0,0" >Izaberite vrijeme i salu:</Label>
+					<ListBox x:Name="pickTime" ItemsSource="{Binding Showtimes}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="80" Margin="0,100,0,0" VerticalAlignment="Top" DisplayMemberPath="DisplayTime" SelectedValuePath="IdTermina" SelectionChanged="pickTime_SelectionChanged">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
+				</Grid>
+			</Border>
+			<Border BorderBrush="#7331c4" BorderThickness="3" Margin="0,350,0,0" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8" Padding="15">
+				<Grid>
+                    <Label x:Name="chooseDateLbl" HorizontalContentAlignment="Center" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center" Height="51" VerticalAlignment="Top" Width="auto" Foreground="White" Margin="0,30,0,0" >Izaberite datum:</Label>
+					<ListBox x:Name="pickDate" ItemsSource="{Binding Dates}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="80" Margin="0,100,0,0" VerticalAlignment="Top" SelectionChanged="pickDate_SelectionChanged">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
+				</Grid>
+			</Border>
+            <Button x:Name="ChooseSeatsBtn" Content="Odaberi sjedišta" HorizontalAlignment="Center" Height="51" Margin="0,0,0,25" VerticalAlignment="Bottom" Width="120" Style="{StaticResource PurpleButton}" Click="ChooseSeatsBtn_Click"/>
+        </Grid>
+        <Grid x:Name="SeatsGrid" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button x:Name="backBtn" Visibility="Visible" Click="backBtn_Click"  Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="36" Height="36" Padding="4" Background="Transparent" BorderBrush="Transparent">
+                <materialDesign:PackIcon x:Name="arwBack" Kind="ArrowBack" Width="18" Height="18" Foreground="#FFFCFCFC"/>
+            </Button>
+        </Grid>
+        <Label x:Name="PriceLbl" Visibility="Collapsed" HorizontalContentAlignment="Center" FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="51" VerticalAlignment="Bottom" Width="auto" Foreground="White" Margin="0,0,0,60" ></Label>
+        <Button x:Name="BuySeatsBtn" Visibility="Collapsed" Content="Kupi karte za odabrana sjedišta" HorizontalAlignment="Center" Height="51" Margin="0,0,0,30" VerticalAlignment="Bottom" Width="200" Style="{StaticResource PurpleButton}"/>
+    </Grid>
+</Window>

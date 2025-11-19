@@ -1,0 +1,275 @@
+﻿<Window x:Class="Projekat1.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Projekat1"
+        mc:Ignorable="d"
+        Title="KinoAppBL" Height="1080" Width="1920"
+        Icon="assets/icon.png"
+        WindowState="Maximized">
+
+    <Grid Margin="0,0,0,-70">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image x:Name ="darkPic" Visibility="Collapsed" Source="assets/bgDark.png" Stretch="Fill" StretchDirection="Both" Grid.RowSpan="2" />
+        <Image x:Name="brightPic" Visibility="Collapsed" Source="assets/bgWhite.png" Stretch="Fill" StretchDirection="Both" Grid.RowSpan="2" />
+        <Image x:Name="colorPic" Visibility="Collapsed" Source="assets/bgColor.png" Stretch="Fill" StretchDirection="Both" Grid.RowSpan="2"/>
+        <StackPanel Grid.Row="0" Background="#7331c4" Height="80" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="3">
+            <Button x:Name="ProfileBtn" IsHitTestVisible="False"  BorderThickness="0" BorderBrush="#7331c4" Height="80"  Background="Transparent" FocusVisualStyle="{x:Null}" Margin="15,0,0,0">
+                <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" Margin="-15,-20,0,-20">
+                    <Image Source="assets/profile.png" Height="60" Width="60" Margin="0,0,5,0"/>
+                    <Label x:Name="usrnmLbl" VerticalAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+            <Button x:Name="MainPageBtn" BorderThickness="0" HorizontalAlignment="Center" BorderBrush="#7331c4" Height="80"  Background="Transparent" FocusVisualStyle="{x:Null}" Margin="15,0,0,0" IsEnabled="False" Click="MainPageBtnClick">
+                Početna stranica
+            </Button>
+            <Button x:Name="TransactionCreateBtn" BorderThickness="0" HorizontalAlignment="Center" BorderBrush="#7331c4" Height="80"  Background="Transparent" FocusVisualStyle="{x:Null}" Margin="15,0,0,0" Click="TransactionCreateClick">
+                <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
+                    <Image Source="assets/plus.png" Height="30" Width="30" Margin="0,0,5,0" Visibility="{Binding IsAdmin}"/>
+                    <Image Source="assets/text.png" Height="30" Width="30" Margin="0,0,5,0" Visibility="{Binding IsKorisnik}"/>
+                    <Label x:Name ="TransactionCreateLbl" Content="{Binding Admin}" VerticalAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+            
+            <Button x:Name="LogoutBtn" BorderThickness="0" HorizontalAlignment="Right" BorderBrush="#7331c4" Height="80"  Background="Transparent" Foreground="Red" FocusVisualStyle="{x:Null}" Margin="880,0,20,0" Click="LogoutBtn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="LogoutVariant" Width="24" Height="24" Margin="0 0 8 0"/>
+                    <Label x:Name="LogOutLbl"  Content="Odjavi se"/>
+                </StackPanel>
+            </Button>
+            
+        </StackPanel>
+        <ScrollViewer x:Name="CreateMovieScroll"  Grid.Row="1" Visibility="Collapsed"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,70" FocusVisualStyle="{x:Null}">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Thumb">
+                    <Setter Property="Background" Value="Gray"/>
+                </Style>
+            </ScrollViewer.Resources>
+            <Grid FocusVisualStyle="{x:Null}">
+                <Label x:Name="nameLbl"  FontSize="14"  FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Width="120" Foreground="White">Naziv filma:</Label>
+                <TextBox  x:Name="nameTb"  HorizontalAlignment="Center" Height="30" Margin="0,60,0,0" VerticalAlignment="Top" Width="120" Background="White" Style="{StaticResource PurpleInput}"></TextBox>
+                <Label x:Name="descriptionLbl" HorizontalContentAlignment="Center"  FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="30" Margin="0,110,0,0" VerticalAlignment="Top" Width="140" Foreground="White">Opis filma:</Label>
+                <TextBox  x:Name="descriptionTb" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"  Height="300" Margin="30,140,30,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Top" Background="White" Style="{StaticResource PurpleInput}"></TextBox>
+                <Label x:Name="genreLbl" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,470,0,0" VerticalAlignment="Top" Width="120" Foreground="White" FontSize="14"  FontWeight="Bold">Žanr:</Label>
+                <ListBox x:Name="genreTb" ItemsSource="{Binding Items}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Multiple" HorizontalAlignment="Center" Height="150" Margin="30,500,30,0" VerticalAlignment="Top">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <Border BorderBrush="#7331c4" BorderThickness="3" Margin="0,550,0,0" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8" Padding="15">
+                    <StackPanel HorizontalAlignment="Center">
+						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+							<Label x:Name="terminLbl" HorizontalContentAlignment="Center" FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="60" VerticalAlignment="Top" Width="auto" Foreground="White" >Termini:</Label>
+                            <Button x:Name="BackspaceBtn" Click="BackspaceClick" Margin="0,-30,0,0" Width="36" Height="36" Padding="4" Background="Transparent" BorderBrush="Transparent">
+								<materialDesign:PackIcon Kind="Backspace" Width="18" Height="18" Foreground="#FFFCFCFC"/>
+							</Button>
+						</StackPanel>
+						<Label x:Name="hoursLbl" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Sati:</Label>
+                        <ListBox x:Name="hoursLb" ItemsSource="{Binding Hours}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectHours">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Label x:Name="minutesLbl" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Minute:</Label>
+                        <ListBox x:Name="minutesLb" ItemsSource="{Binding Minutes}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectMinutes">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Label x:Name="hallLbl" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Sala:</Label>
+                        <ListBox x:Name="hallLb" ItemsSource="{Binding Halls}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectHalls">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+                <Button x:Name="addShowtimeBtn" Content="Dodaj termin" HorizontalAlignment="Center" Height="51" Margin="0,859,0,0" VerticalAlignment="Top" Width="120" Style="{StaticResource PurpleButton}" Click="addShowtimeClick"/>
+                <ListBox x:Name="dLb" ItemsSource="{Binding D}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="150" Margin="30,950,30,0" VerticalAlignment="Top">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <Label x:Name="lb"  FontSize="14"  FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,1000,0,0" VerticalAlignment="Top" Width="200" Foreground="White">Trajanje filma (minute):</Label>
+                <TextBox  x:Name="lengthTb"  HorizontalAlignment="Center" Height="30" Margin="0,1030,0,0" VerticalAlignment="Top" Width="120" Background="White" Style="{StaticResource PurpleInput}" TextChanged="lengthTbOnChange"></TextBox>
+				<Border x:Name="img" BorderBrush="#7331c4" BorderThickness="3" Margin="0,1080,0,0" Height ="450" Width="300" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8"></Border>
+				<Button x:Name="addImgBtn" Content="Dodaj sliku" HorizontalAlignment="Center" Height="51" Margin="0,1440,0,0" VerticalAlignment="Top" Width="120" Style="{StaticResource PurpleButton}" Click="LoadImageClick"/>
+				<Button x:Name="createBtn" Content="Kreiraj film" FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="70" Margin="0,1550,0,50" VerticalAlignment="Top" Width="200" Style="{StaticResource PurpleButton}" Click="CreateMovie"/>
+			</Grid>
+        </ScrollViewer>
+        <ScrollViewer x:Name="HomePageScroll"  Grid.Row="1" Visibility="Visible"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,70" Padding="20,20,20,20" FocusVisualStyle="{x:Null}">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Thumb">
+                    <Setter Property="Background" Value="Gray"/>
+                </Style>
+            </ScrollViewer.Resources>
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0">
+                        <ListBox x:Name="sortLb" ItemsSource="{Binding Sorts}" FocusVisualStyle="{x:Null}" FontWeight="Bold" Foreground="White" SelectionMode="Single" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Margin="0" SelectionChanged="sortLb_SelectionChanged">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <materialDesign:PackIcon x:Name="arrowLeft" Kind="ArrowBack" Width="30" Height="30.5" Foreground="#FFFCFCFC" Background="#7331c4" Margin="0"/>
+                        <Label x:Name="sortLbl" Background="#7331c4" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="200" Foreground="White" Margin="0">Sortiraj</Label>
+                    </StackPanel>
+
+                    <ListBox Grid.Column="1" x:Name="themesLb" ItemsSource="{Binding Themes}" FocusVisualStyle="{x:Null}" FontWeight="Bold" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" VerticalAlignment="Top" Height="36" SelectionChanged="themesLb_SelectionChanged" Margin="0,0,55,0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0">
+                        <Label x:Name="filterLbl" FontWeight="Bold" Background="#7331c4" HorizontalContentAlignment="Center" Height="30" VerticalAlignment="Top" Width="200" Foreground="White" Margin="0">Filtriraj</Label>
+                        <materialDesign:PackIcon x:Name="arrowRight" Kind="ArrowForward" Width="30.5" Height="30.5" Foreground="#FFFCFCFC" Background="#7331c4" Margin="0"/>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Width="125" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0">
+                            <ListBox x:Name="filterLb" ItemsSource="{Binding Filters}" FocusVisualStyle="{x:Null}" FontWeight="Bold" Foreground="White" SelectionMode="Single" Height="36" Margin="0" SelectionChanged="filterLb_SelectionChanged">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
+                <WrapPanel x:Name="MoviesWrapPanel" HorizontalAlignment="Center" Panel.ZIndex="2">
+              
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer x:Name="PickedMovieScroll"  Grid.Row="1" Visibility="Collapsed"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,70" Padding="20,20,20,20" FocusVisualStyle="{x:Null}">
+            <Grid x:Name ="PickedMovieGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
+        <ScrollViewer x:Name="UpdateMovieScroll" Grid.Row="1"  Grid.ColumnSpan="2" Visibility="Collapsed"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,70" FocusVisualStyle="{x:Null}">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Thumb">
+                    <Setter Property="Background" Value="Gray"/>
+                </Style>
+            </ScrollViewer.Resources>
+            <Grid FocusVisualStyle="{x:Null}">
+                <Button x:Name="back" Visibility="Visible" Click="backUpdate" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="36" Height="36" Padding="4" Background="Transparent" BorderBrush="Transparent">
+                    <materialDesign:PackIcon Kind="ArrowBack" Width="18" Height="18" Foreground="#FFFCFCFC"/>
+                </Button>
+                <Label x:Name="nameLblUpdate"  FontSize="14"  FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,30,0,0" VerticalAlignment="Top" Width="120" Foreground="White">Naziv filma:</Label>
+                <TextBox  x:Name="nameTbUpdate"  HorizontalAlignment="Center" Height="30" Margin="0,60,0,0" VerticalAlignment="Top" Width="120" Background="White" Style="{StaticResource PurpleInput}" IsEnabled="False"></TextBox>
+                <Label x:Name="descriptionLblUpdate" HorizontalContentAlignment="Center"  FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="30" Margin="0,110,0,0" VerticalAlignment="Top" Width="140" Foreground="White">Opis filma:</Label>
+                <TextBox  x:Name="descriptionTbUpdate" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"  Height="300" Margin="30,140,30,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Top" Background="White" Style="{StaticResource PurpleInput}"></TextBox>
+                <Label x:Name="genreLblUpdate" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,470,0,0" VerticalAlignment="Top" Width="120" Foreground="White" FontSize="14"  FontWeight="Bold">Žanr:</Label>
+                <ListBox x:Name="genreTbUpdate" ItemsSource="{Binding Items}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Multiple" HorizontalAlignment="Center" Height="150" Margin="30,500,30,0" VerticalAlignment="Top">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <Border BorderBrush="#7331c4" BorderThickness="3" Margin="0,550,0,0" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8" Padding="15">
+                    <StackPanel HorizontalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Label x:Name="terminLblUpdate" HorizontalContentAlignment="Center" FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="60" VerticalAlignment="Top" Width="auto" Foreground="White" >Termini:</Label>
+                            <Button x:Name="BackspaceBtnUpdate" Click="BackspaceClick" Margin="0,-30,0,0" Width="36" Height="36" Padding="4" Background="Transparent" BorderBrush="Transparent">
+                                <materialDesign:PackIcon Kind="Backspace" Width="18" Height="18" Foreground="#FFFCFCFC"/>
+                            </Button>
+                        </StackPanel>
+                        <Label x:Name="hoursLblUpdate" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Sati:</Label>
+                        <ListBox x:Name="hoursLbUpdate" ItemsSource="{Binding Hours}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectHours">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Label x:Name="minutesLblUpdate" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Minute:</Label>
+                        <ListBox x:Name="minutesLbUpdate" ItemsSource="{Binding Minutes}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectMinutes">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Label x:Name="hallLblUpdate" HorizontalContentAlignment="Center"  FontWeight="SemiBold" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="120" Foreground="White">Sala:</Label>
+                        <ListBox x:Name="hallLbUpdate" ItemsSource="{Binding Halls}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" SelectionChanged="selectHalls">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+                <Button x:Name="addShowtimeBtnUpdate" Content="Dodaj termin" HorizontalAlignment="Center" Height="51" Margin="0,859,0,0" VerticalAlignment="Top" Width="120" Style="{StaticResource PurpleButton}" Click="addShowtimeClick"/>
+                <ListBox x:Name="dLbUpdate" ItemsSource="{Binding D}" FocusVisualStyle="{x:Null}" Foreground="White" SelectionMode="Single" HorizontalAlignment="Center" Height="150" Margin="30,950,30,0" VerticalAlignment="Top">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <Label x:Name="lbUpdate"  FontSize="14"  FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0,1000,0,0" VerticalAlignment="Top" Width="200" Foreground="White">Trajanje filma (minute):</Label>
+                <TextBox  x:Name="lengthTbUpdate"  HorizontalAlignment="Center" Height="30" Margin="0,1030,0,0" VerticalAlignment="Top" Width="120" Background="White" Style="{StaticResource PurpleInput}" TextChanged="lengthTbOnChange"></TextBox>
+                <Border x:Name="imgUpdate" BorderBrush="#7331c4" BorderThickness="3" Margin="0,1080,0,0" Height ="450" Width="300" FocusVisualStyle="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8"></Border>
+                <Button x:Name="addImgBtnUpdate" Content="Dodaj sliku" HorizontalAlignment="Center" Height="51" Margin="0,1440,0,0" VerticalAlignment="Top" Width="120" Style="{StaticResource PurpleButton}" Click="LoadImageClick"/>
+                <Button x:Name="createBtnUpdate" Content="Ažuriraj film" FontSize="14"  FontWeight="Bold" HorizontalAlignment="Center" Height="70" Margin="0,1560,0,50" VerticalAlignment="Top" Width="200" Style="{StaticResource PurpleButton}" Click="UpdateMovie"/>
+            </Grid>
+        </ScrollViewer>
+        <ScrollViewer x:Name="ViewTransactionsScroll" Grid.Row="1"  Grid.ColumnSpan="2" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,70" FocusVisualStyle="{x:Null}">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Thumb">
+                    <Setter Property="Background" Value="Gray"/>
+                </Style>
+            </ScrollViewer.Resources>
+            <StackPanel x:Name="ViewTransactionsPanel" HorizontalAlignment="Center" VerticalAlignment="Top">
+                
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
